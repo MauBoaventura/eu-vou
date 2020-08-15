@@ -6,24 +6,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MBLabs.Models;
+using EuVou.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MBLabs.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly EuVouContext _context;
+        public HomeController(EuVouContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
+        {
+            return View(await _context.Event.ToListAsync());
+        }
+
+        public IActionResult About()
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult Login()
         {
             return View();
         }
