@@ -44,8 +44,9 @@ namespace EuVou.Models
         }
 
         // GET: Clients/Create
-        public IActionResult Create()
+        public IActionResult Register()
         {
+            Console.WriteLine("Hello World!");
             return View();
         }
 
@@ -54,8 +55,9 @@ namespace EuVou.Models
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,CPF,Phone,Email,Password,isADM")] Client client)
+        public async Task<IActionResult> Register([Bind("Id,Name,CPF,Phone,Email,Password,isADM")] Client client)
         {
+            Console.WriteLine(client.Id);
             if (ModelState.IsValid)
             {
                 _context.Add(client);
