@@ -10,11 +10,11 @@ using MBLabs.Models;
 
 namespace EuVou.Models
 {
-    public class LoginControllers : Controller
+    public class LoginController : Controller
     {
         private readonly EuVouContext _context;
 
-        public LoginControllers(EuVouContext context)
+        public LoginController(EuVouContext context)
         {
             _context = context;
         }
