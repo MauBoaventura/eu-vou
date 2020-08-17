@@ -1,9 +1,28 @@
 ﻿@model MBLabs.Models.Ticket
 
+@using Microsoft.AspNetCore.Identity
+@using EuVou.Areas.Identity.Data
+
+@inject SignInManager<EuVouUser> SignInManager
+@inject UserManager<EuVouUser> UserManager
+@{
+    var UsuarioID = @UserManager.GetUserId(User);
+}
+<h1>Index</h1>
+@if (SignInManager.IsSignedIn(User))
+{
+    UsuarioID = @UserManager.GetUserId(User);
+
+}
+else
+{
+    <a asp-action="Register">Create New</a>
+}
+
 @{
     ViewData["Title"] = "Create";
 }
-
+value="@UsuarioID;"
 <h1>Create</h1>
 
 <h4>Ticket</h4>
@@ -14,7 +33,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id_Client" class="control-label"></label>
-                <input asp-for="Id_Client" class="form-control" />
+                <input asp-for="Id_Client" class="form-control" value="@UsuarioID"/>
                 <span asp-validation-for="Id_Client" class="text-danger"></span>
             </div>
             <div class="form-group">

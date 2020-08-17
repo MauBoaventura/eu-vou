@@ -46,9 +46,26 @@ namespace EuVou.Models
         }
 
         // GET: Tickets/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = await _context.Event
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+            Ticket ticket = new Ticket();
+
+            ticket.Id_Event = @event.Id;
+            Random a = new Random();
+            ticket.ticket_id = a.Next(1, 50000).ToString();
+
+            return View(ticket);
         }
 
         // POST: Tickets/Create
@@ -56,8 +73,15 @@ namespace EuVou.Models
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Id_Client,Id_Event,ticket_id")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,Id_Client,Id_Event,ticket_id")] Ticket ticket_view)
         {
+            Console.WriteLine("ID do view " + ticket_view.Id);
+            Ticket ticket = new Ticket();
+            ticket.Id_Client = ticket_view.Id_Client;
+            ticket.Id_Event = ticket_view.Id_Event;
+            ticket.ticket_id = ticket_view.ticket_id;
+            Console.WriteLine("ID do criado " + ticket.Id);
+
             if (ModelState.IsValid)
             {
                 _context.Add(ticket);
