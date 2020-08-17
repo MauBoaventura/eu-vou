@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EuVou.Data;
 using MBLabs.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EuVou.Models
 {

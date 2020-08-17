@@ -27,7 +27,7 @@
         <div class="border rounded col-4">
             <div class="card-body">
                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Description)</h6>
+                <h6 class="card-subtitle mb-2 text-muted" style="overflow:hidden;height: 60px;">@Html.DisplayFor(modelItem => item.Description)</h6>
                 <p class="card-text">Localização: @Html.DisplayFor(modelItem => item.Location)</p>
                 <h6 class="card-header-pills"> Horario: @Html.DisplayFor(modelItem => item.Hour) </h6>
                 <small class="text-muted"> Data: @Html.DisplayFor(modelItem => item.Date) </small>
@@ -43,8 +43,7 @@
         @if (i % 3 == 2)
         {
             <div class="w-100"></div>
-            //@Html.Raw("</div>")
-
+         
         }
 
 

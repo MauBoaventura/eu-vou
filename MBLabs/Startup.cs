@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using EuVou.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MBLabs
 {
@@ -30,7 +31,21 @@ namespace MBLabs
 
             services.AddDbContext<EuVouContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("EuVouContext")));
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AutenticacaoSimples", p =>
+                {
+                    p.RequireAuthenticatedUser();
+                    //p.RequireClaim("IsAdmin"); 
+                    p.Build();
+                });
+                options.AddPolicy("AtLeast21", policy =>
+                    policy.Requirements.Add(new IsADMRequirement(21)));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, IsADMHandler>();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
