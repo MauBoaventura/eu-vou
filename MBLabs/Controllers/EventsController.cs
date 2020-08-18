@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using EuVou.Data;
 using MBLabs.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
+using EuVou.Areas.Identity.Data;
+using System.Data;
+using System.Security.Claims;
 
 namespace EuVou.Models
 {
@@ -47,7 +51,10 @@ namespace EuVou.Models
         // GET: Events/Create
         public IActionResult Create()
         {
-            return View();
+            if (ThisIsADM())
+                return View();
+            else
+                return Forbid();
         }
 
         // POST: Events/Create
@@ -57,29 +64,40 @@ namespace EuVou.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Hour,Date,Location,Price")] Event @event)
         {
-            if (ModelState.IsValid)
+            if (!ThisIsADM())
+                return Forbid();
+            else
             {
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(@event);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(@event);
             }
-            return View(@event);
+
         }
 
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (!ThisIsADM())
+                return Forbid();
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var @event = await _context.Event.FindAsync(id);
-            if (@event == null)
-            {
-                return NotFound();
+                var @event = await _context.Event.FindAsync(id);
+                if (@event == null)
+                {
+                    return NotFound();
+                }
+                return View(@event);
             }
-            return View(@event);
         }
 
         // POST: Events/Edit/5
@@ -89,50 +107,62 @@ namespace EuVou.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Hour,Date,Location,Price")] Event @event)
         {
-            if (id != @event.Id)
+            if (!ThisIsADM())
+                return Forbid();
+            else
             {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (id != @event.Id)
                 {
-                    _context.Update(@event);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if (ModelState.IsValid)
                 {
-                    if (!EventExists(@event.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(@event);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!EventExists(@event.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(@event);
             }
-            return View(@event);
         }
 
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (!ThisIsADM())
+                return Forbid();
+            else
             {
-                return NotFound();
-            }
 
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
-            {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            return View(@event);
+                var @event = await _context.Event
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (@event == null)
+                {
+                    return NotFound();
+                }
+
+                return View(@event);
+            }
         }
 
         // POST: Events/Delete/5
@@ -140,15 +170,58 @@ namespace EuVou.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (!ThisIsADM())
+                return Forbid();
+            else
+            {
+                var @event = await _context.Event.FindAsync(id);
+                _context.Event.Remove(@event);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool EventExists(int id)
         {
             return _context.Event.Any(e => e.Id == id);
+        }
+
+        private bool ThisIsADM()
+        {
+            string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection sqlConnection1 = new SqlConnection(strcon);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT * FROM AspNetUsers";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+
+            sqlConnection1.Open();
+
+            EuVouUser user = null;
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if (reader.GetString(0) == userAutenticate)
+                    {
+                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            // Aqui os dados são acessados através do objeto dataReader
+            sqlConnection1.Close();
+
+            return user.IsADM;
+
         }
     }
 }
