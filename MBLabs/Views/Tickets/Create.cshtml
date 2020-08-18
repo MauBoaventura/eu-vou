@@ -8,53 +8,100 @@
 @{
     var UsuarioID = @UserManager.GetUserId(User);
 }
-<h1>Index</h1>
-@if (SignInManager.IsSignedIn(User))
-{
-    UsuarioID = @UserManager.GetUserId(User);
+<h1>Pagament @ViewBag.Algo</h1>
 
-}
-else
-{
-    <a asp-action="Register">Create New</a>
-}
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Pagament";
 }
-value="@UsuarioID;"
-<h1>Create</h1>
 
-<h4>Ticket</h4>
+<h4></h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id_Client" class="control-label"></label>
-                <input asp-for="Id_Client" class="form-control" value="@UsuarioID"/>
-                <span asp-validation-for="Id_Client" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Id_Event" class="control-label"></label>
-                <input asp-for="Id_Event" class="form-control" />
-                <span asp-validation-for="Id_Event" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ticket_id" class="control-label"></label>
-                <input asp-for="ticket_id" class="form-control" />
-                <span asp-validation-for="ticket_id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="col align-items-center border border-dark rounded col-md-6 offset-md-3">
+    <div class="row card-header bg-light">
+        <ul class="nav nav-tabs">
+            <li class="nav-item mr-2">
+                <div for="card" class="method card">
+                    <div class="card-logos">
+                        <img class="mt-2 ml-2 mr-4" src="https://designmodo.com/demo/checkout-panel/img/visa_logo.png" />
+                        <img src="https://designmodo.com/demo/checkout-panel/img/mastercard_logo.png" />
+                    </div>
+                    <div class="radio-input">
+                        <input id="card" type="radio" name="payment">
+                        Pay R$ MONEY with credit card
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div for="card" class="method card">
+                    <div class="card-logos">
+                        <img class="mt-2 ml-2" src="https://designmodo.com/demo/checkout-panel/img/paypal_logo.png" />
+                    </div>
+                    <div class="radio-input">
+                        <input id="card" type="radio" name="payment">
+                        Pay R$ MONEY with credit card
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
-</div>
+    <div class="row card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-fields">
+                    <div class="column-1">
+                        <label for="cardholder">Name</label>
+                        <input type="text" id="cardholder" />
 
-<div>
-    <a asp-action="Index">Back to List</a>
+                        <div class="small-inputs">
+                            <div>
+                                <label for="date">Valid date</label>
+                                <input type="text" id="date" />
+                            </div>
+
+                            <div>
+                                <label for="verification">CVV / CVC *</label>
+                                <input type="password" id="verification" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column-2">
+                        <label for="cardnumber">Card Number</label>
+                        <input type="password" id="cardnumber" />
+
+                        <span class="info">* CVV or CVC is the card security code, unique three digits number on the back of your card separate from its number.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" hidden>
+                    <label asp-for="Id_Client" class="control-label" hidden></label>
+                    <input asp-for="Id_Client" class="form-control" value="@UsuarioID" hidden />
+                    <span asp-validation-for="Id_Client" class="text-danger" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Id_Event" class="control-label" hidden></label>
+                    <input asp-for="Id_Event" class="form-control" hidden />
+                    <span asp-validation-for="Id_Event" class="text-danger" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ticket_id" class="control-label" hidden></label>
+                    <input asp-for="ticket_id" class="form-control" hidden />
+                    <span asp-validation-for="ticket_id" class="text-danger" hidden></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {

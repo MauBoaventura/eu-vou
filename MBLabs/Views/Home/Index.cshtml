@@ -7,11 +7,8 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <img class="img-fluid float-left w-25" src="~/img/logopreto.png" />
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
     </ul>
 
 </div>
@@ -36,8 +33,8 @@
                 <small class="text-muted"> @Html.DisplayFor(modelItem => item.Price)</small>
             </div>
             <div class="card-body">
-                <a class="btn btn-outline-dark" asp-controller="Events" asp-action="Details" asp-route-id="@item.Id"> Mais</a>
-                <a href="#" class="card-link">Pagar</a>
+                <a class="btn btn-outline-dark" asp-controller="Events" asp-action="Details" asp-route-id="@item.Id"> More</a>
+                <a class="card-link" asp-controller="Tickets" asp-action="Create" asp-route-id="@item.Id"> Pay</a>
             </div>
         </div>
         @if (i % 3 == 2)
