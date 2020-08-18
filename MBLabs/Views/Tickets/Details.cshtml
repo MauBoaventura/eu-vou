@@ -4,33 +4,55 @@
     ViewData["Title"] = "Details";
 }
 
+
+@ViewBag.User.CPF
+
 <h1>Details</h1>
 
 <div>
     <h4>Ticket</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id_Client)
+        <dt class="col-sm-2">
+            @ViewBag.User.Id
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id_Client)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id_Event)
+        <dt class="col-sm-2">
+            @ViewBag.User.Email
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id_Event)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ticket_id)
+        <dt class="col-sm-2">
+            @ViewBag.User.CPF
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ticket_id)
-        </dd>
+        <dt class="col-sm-2">
+            @ViewBag.User.UserName
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.User.IsADM
+        </dt>
+
+    </dl><dl class="row">
+        <dt class="col-sm-2">
+            @ViewBag.Event.Id
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.Event.Name
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.Event.Description
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.Event.Hour
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.Event.Date
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.Event.Location
+        </dt>
+        <dt class="col-sm-2">
+            @ViewBag.Event.Price
+        </dt>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

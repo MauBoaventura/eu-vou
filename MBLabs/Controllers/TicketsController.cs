@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using EuVou.Data;
 using MBLabs.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using EuVou.Areas.Identity.Data;
 
 namespace EuVou.Models
 {
@@ -24,7 +28,43 @@ namespace EuVou.Models
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ticket.ToListAsync());
+            string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection sqlConnection1 = new SqlConnection(strcon);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT * FROM AspNetUsers";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+
+            sqlConnection1.Open();
+
+            EuVouUser user = null;
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if (reader.GetString(0) == userAutenticate)
+                    {
+                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            // Aqui os dados são acessados através do objeto dataReader
+            sqlConnection1.Close();
+
+            if (user.IsADM)
+                return View(await _context.Ticket.ToListAsync());
+            else
+                return View( _context.Ticket.Where(m => m.Id_Client == userAutenticate));
+
         }
 
         // GET: Tickets/Details/5
@@ -40,6 +80,57 @@ namespace EuVou.Models
             if (ticket == null)
             {
                 return NotFound();
+            }
+            string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            //Pesquisa na tabala de usuarios criados no Identity pelo ID e retorna o EuVouUser
+            string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection sqlConnection1 = new SqlConnection(strcon);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT * FROM AspNetUsers";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+
+            sqlConnection1.Open();
+
+            EuVouUser user = null;
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if (reader.GetString(0) == userAutenticate)
+                    {
+                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            // Aqui os dados são acessados através do objeto dataReader
+            sqlConnection1.Close();
+
+
+            var @event = await _context.Event
+                .FirstOrDefaultAsync(m => m.Id == ticket.Id_Event);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.User = user;
+            ViewBag.Event = @event;
+
+
+            if (userAutenticate != ticket.Id_Client && !user.IsADM)
+            {
+                return Forbid();
+
             }
 
             return View(ticket);
