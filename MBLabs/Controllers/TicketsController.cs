@@ -35,7 +35,7 @@ namespace EuVou.Models
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket
+            Ticket ticket = await _context.Ticket
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
@@ -64,7 +64,8 @@ namespace EuVou.Models
             ticket.Id_Event = @event.Id;
             Random a = new Random();
             ticket.ticket_id = a.Next(1, 50000).ToString();
-            ViewBag.Algo = 121;
+
+            ViewBag.Price = @event.Price;
 
             return View(ticket);
         }

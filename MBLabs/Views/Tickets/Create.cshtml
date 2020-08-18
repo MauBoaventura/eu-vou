@@ -8,7 +8,7 @@
 @{
     var UsuarioID = @UserManager.GetUserId(User);
 }
-<h1>Pagament @ViewBag.Algo</h1>
+<h1>Pagament</h1>
 
 
 @{
@@ -28,7 +28,7 @@
                     </div>
                     <div class="radio-input">
                         <input id="card" type="radio" name="payment">
-                        Pay R$ MONEY with credit card
+                        Pay R$ @ViewBag.Price with credit card
                     </div>
                 </div>
             </li>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="radio-input">
                         <input id="card" type="radio" name="payment">
-                        Pay R$ MONEY with credit card
+                        Pay R$ @ViewBag.Price with credit card
                     </div>
                 </div>
             </li>

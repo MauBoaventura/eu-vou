@@ -9,6 +9,10 @@ namespace EuVou.Data
 {
     public class EuVouContext : DbContext
     {
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       // {
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true");
+        //}
         public EuVouContext (DbContextOptions<EuVouContext> options)
             : base(options)
         {
