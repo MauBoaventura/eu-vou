@@ -1,65 +1,60 @@
 ﻿@model IEnumerable<MBLabs.Models.Event>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Eventos";
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (ViewBag.IsADM)
+{
+    <p><a asp-action="Create">Create New</a></p>
 }
-    </tbody>
-</table>
+
+<div class="card-deck mt-3">
+    @{
+        var i = 0;
+    }
+
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-4 s12 m6 mb-2 palavra">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">@Html.DisplayFor(modelItem => item.Name)</span>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </p>
+                        <p>
+                            Localização: @Html.DisplayFor(modelItem => item.Location)
+                        </p>
+                        <p>
+                            Horario: @Html.DisplayFor(modelItem => item.Hour)
+                        </p>
+                        <p>
+                            Data: @Html.DisplayFor(modelItem => item.Date)
+                        </p>
+                        <p>
+                            Preço: @Html.DisplayFor(modelItem => item.Price)
+                        </p>
+                    </div>
+                    <div class="card-action">
+                        <a class="card-link" asp-controller="Events" asp-action="Details" asp-route-id="@item.Id"> More</a>
+                        <a class="card-link" asp-controller="Tickets" asp-action="Create" asp-route-id="@item.Id"> Pay</a>
+                    </div>
+                </div>
+            </div>
+
+
+            @if (i % 3 == 2)
+            {
+                <div class="w-100"></div>
+
+            }
+
+
+            i++;
+        }
+    </div>
+</div>

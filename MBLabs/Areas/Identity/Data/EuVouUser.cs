@@ -11,11 +11,14 @@ namespace EuVou.Areas.Identity.Data
     {
         [PersonalData]
         public string CPF { get; set; }
-       
+
         [PersonalData]
         public string Name { get; set; }
         
         [PersonalData]
-        public Boolean IsADM { get; set; }
+        public string Phone { get; set; }
+
+        [PersonalData]
+        public bool IsADM { get; set; }
     }
 }

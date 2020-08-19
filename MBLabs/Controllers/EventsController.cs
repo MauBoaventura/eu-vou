@@ -27,6 +27,7 @@ namespace EuVou.Models
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            ViewBag.IsADM = ThisIsADM();
             return View(await _context.Event.ToListAsync());
         }
 
@@ -209,7 +210,7 @@ namespace EuVou.Models
                 {
                     if (reader.GetString(0) == userAutenticate)
                     {
-                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
                     }
                 }
             }

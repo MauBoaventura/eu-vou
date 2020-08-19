@@ -1,0 +1,202 @@
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+/*    font-family: 'Permanent Marker', cursive;*/
+    /*    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);*/
+    background: rgb(255,189,151);
+    background: linear-gradient(93deg, rgba(255,189,151,1) 2%, rgba(0,5,240,0.5438550420168067) 84%);
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+
+.blue-grey.darken-1 {
+    background-color: #516e7f !important;
+}
+
+.card .card-content {
+    padding: 24px;
+    border-radius: 0 0 2px 2px;
+}
+
+.white-text {
+    color: #fff !important;
+}
+
+.card .card-action:last-child {
+    border-radius: 0 0 2px 2px;
+}
+
+.card .card-content .card-title {
+    display: block;
+    line-height: 32px;
+    margin-bottom: 8px;
+}
+
+.card .card-action {
+    background-color: inherit;
+    border-top: 1px solid rgba(160,160,160,0.2);
+    position: relative;
+    padding: 16px 24px;
+}
+
+.card .card-title {
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.card .card-content p {
+    margin: 0;
+}
+
+.card-panel span, .card-content p {
+    -webkit-font-smoothing: antialiased;
+}
+
+p {
+    padding: 0;
+    /*    max-height: 50px;*/
+}
+
+.card .card-action:last-child {
+    border-radius: 0 0 2px 2px;
+}
+
+.card .card-action {
+    background-color: inherit;
+    border-top: 1px solid rgba(160,160,160,0.2);
+    position: relative;
+    padding: 16px 24px;
+}
+
+    .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+        color: #ffab40;
+        margin-right: 24px;
+        -webkit-transition: color .3s ease;
+        transition: color .3s ease;
+        text-transform: uppercase;
+    }
+
+a {
+    text-decoration: none;
+}
+
+a {
+    color: #039be5;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a {
+    background-color: transparent;
+}
+
+.image_logo {
+    position: relative;
+    width: 90%;
+}
+
+
+.image_logo_navb {
+    position: relative;
+    width: 100%;
+    max-width: 3.3%;
+}
+
+.home_dir {
+    font-size: 15px;
+    float: right;
+    font-weight: bold;
+    margin-top: 25px;
+    color: midnightblue;
+    background-color: transparent;
+    border-width: inherit;
+    border-style: outset;
+    border-color: blanchedalmond;
+}
+
+.box-shadow1 {
+    box-shadow: 0 0.25rem 0.8rem rgba(0, 0, 0, .2);
+}
+
+.palavra_g {
+    font-size: 50px;
+    font-family: 'Permanent Marker', cursive;
+}
+
+.palavra_home {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 17px;
+}
+
+.palavra {
+    font-family: 'Permanent Marker', cursive;
+}

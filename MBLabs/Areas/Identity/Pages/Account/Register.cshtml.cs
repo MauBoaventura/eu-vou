@@ -55,6 +55,11 @@ namespace EuVou.Areas.Identity.Pages.Account
             [DataType(DataType.Text)]
             [Display(Name = "CPF")]
             public string CPF { get; set; }
+            
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Phone")]
+            public string Phone { get; set; }
 
             [Required]
             [EmailAddress]
@@ -85,7 +90,7 @@ namespace EuVou.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new EuVouUser { UserName = Input.Email, Email = Input.Email, CPF = Input.CPF, Name = Input.Name, IsADM = false };
+                var user = new EuVouUser { UserName = Input.Email, Email = Input.Email, CPF = Input.CPF, Name = Input.Name, Phone = Input.Phone, IsADM = false };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
