@@ -1,61 +1,66 @@
 ﻿@model MBLabs.Models.Ticket
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["title-bilhete"] = "Ticket";
 }
 
+<div class="bilhete">
+    <div class="bilhete-cabecalho">
+        <div class="bilhete-cabecalho-esquerda">
+            <small class="bilhete-cabecalho-esquerda-evento">
+                EVENTO
+            </small>
+            <div class="bilhete-cabecalho-esquerda-nome">
+                @ViewBag.Event.Name
+            </div>
 
-@ViewBag.User.CPF
+        </div>
+        @*<div class="bilhete-cabecalho-direita">
+                Numero do ticket
+                @Model.ticket_id
+            </div>
+        *@
+    </div>
+    <div class=" container bilhete-corpo">
+        <div class="bilhete-cliente rounded">
+            CLIENTE:
+            <div class="bilhete-dados-clientes">
+                @ViewBag.User.Name
+            </div>
+            <div class="bilhete-dados-clientes">
+                @ViewBag.User.CPF
+            </div>
+            <div class="bilhete-dados-clientes">
+                @ViewBag.User.Phone
+            </div>
 
-<h1>Details</h1>
+        </div>
+        <div class=" bilhete-dados rounded">
+            INFORMATIONS:
+            <div class="bilhete-dados-eventos">
+                <div class="bilhete-dados-clientes">
+                    @ViewBag.Event.Name
+                </div>
+                <div class="bilhete-dados-clientes">
+                    @ViewBag.Event.Date.ToString().Substring(0, 9) | @ViewBag.Event.Hour
+                </div>
+                <div class="bilhete-dados-clientes">
+                    LOCALIZATION: @ViewBag.Event.Location
+                </div>
+                <div class="bilhete-dados-clientes">
+                    PRICE: R$ @ViewBag.Event.Price
+                </div>
 
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @ViewBag.User.Id
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.User.Email
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.User.CPF
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.User.UserName
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.User.Phone
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.User.IsADM
-        </dt>
+            </div>
+        </div>
+        <div class="bilhete-dados-ticket">
+            <img class="image_logo barcode" src="~/img/barcode.webp" />
+        </div>
 
-    </dl><dl class="row">
-        <dt class="col-sm-2">
-            @ViewBag.Event.Id
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.Event.Name
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.Event.Description
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.Event.Hour
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.Event.Date
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.Event.Location
-        </dt>
-        <dt class="col-sm-2">
-            @ViewBag.Event.Price
-        </dt>
-    </dl>
+    </div>
 </div>
+
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

@@ -29,41 +29,23 @@ namespace EuVou.Models
         public async Task<IActionResult> Index()
         {
             string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-            SqlConnection sqlConnection1 = new SqlConnection(strcon);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "SELECT * FROM AspNetUsers";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = sqlConnection1;
-
-            sqlConnection1.Open();
-
-            EuVouUser user = null;
-            reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    if (reader.GetString(0) == userAutenticate)
-                    {
-                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("No rows found.");
-            }
-            // Aqui os dados são acessados através do objeto dataReader
-            sqlConnection1.Close();
-
+            EuVouUser user = ThisUser();            
             if (user.IsADM)
+            {
+                //ViewBag.User = _context.Event.ToList();
+                ViewBag.User = user;
+                ViewBag.Events = _context.Event.ToList();
+
                 return View(await _context.Ticket.ToListAsync());
+            }
             else
-                return View( _context.Ticket.Where(m => m.Id_Client == userAutenticate));
+            {
+                ViewBag.User = user;
+                ViewBag.Events = _context.Event.ToList();
+                
+                return View(_context.Ticket.Where(m => m.Id_Client == userAutenticate));
+            }
 
         }
 
@@ -267,6 +249,81 @@ namespace EuVou.Models
         private bool TicketExists(int id)
         {
             return _context.Ticket.Any(e => e.Id == id);
+        }
+        private EuVouUser ThisUser()
+        {
+            string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection sqlConnection1 = new SqlConnection(strcon);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT * FROM AspNetUsers";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+
+            sqlConnection1.Open();
+
+            EuVouUser user = null;
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if (reader.GetString(0) == userAutenticate)
+                    {
+                        user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            // Aqui os dados são acessados através do objeto dataReader
+            sqlConnection1.Close();
+
+            return user;
+
+        }
+        private List<EuVouUser> AllUsers()
+        {
+            string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection sqlConnection1 = new SqlConnection(strcon);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT * FROM AspNetUsers";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+
+            sqlConnection1.Open();
+
+            List<EuVouUser> user = new List<EuVouUser>();
+            reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if (reader.GetString(0) == userAutenticate)
+                    {
+                        EuVouUser user_i = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                        user.Add(user_i);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            // Aqui os dados são acessados através do objeto dataReader
+            sqlConnection1.Close();
+
+            return user;
+
         }
     }
 }

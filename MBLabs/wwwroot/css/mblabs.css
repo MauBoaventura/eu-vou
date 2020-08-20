@@ -63,7 +63,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-/*    font-family: 'Permanent Marker', cursive;*/
+    /*    font-family: 'Permanent Marker', cursive;*/
     /*    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);*/
     background: rgb(255,189,151);
     background: linear-gradient(93deg, rgba(255,189,151,1) 2%, rgba(0,5,240,0.5438550420168067) 84%);
@@ -199,4 +199,108 @@ a {
 
 .palavra {
     font-family: 'Permanent Marker', cursive;
+}
+
+.bilhete {
+    /*    width: 27em;
+    margin: 3em auto;*/
+    font-family: sans-serif;
+    border-radius: 34px 34px 0px 0px;
+    -moz-border-radius: 34px 34px 0px 0px;
+    -webkit-border-radius: 34px 34px 0px 0px;
+    border: 2px dotted #000000;
+    max-width: 500px;
+    max-width: 600px;
+    margin-left: 200px;
+    background-color: #1f326c;
+}
+
+.bilhete-cabecalho {
+    margin-top: 30px;
+    margin-left: 30px;
+    text-transform: uppercase;
+}
+
+.bilhete-cabecalho-esquerda {
+    margin-bottom: -10px;
+}
+
+.bilhete-cabecalho-esquerda-evento {
+    font-size: 17px;
+    color: gray;
+    font-family: fantasy;
+}
+
+.bilhete-cabecalho-esquerda-nome {
+    margin-top: -5px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 25px;
+    color: white;
+}
+
+.bilhete-cabecalho-direita {
+    /*    float: right;*/
+    transform: rotate(90deg);
+}
+
+
+.bilhete-corpo {
+    background-color: white;
+    display: inline-table;
+    height: 400px;
+    margin-top: 40px;
+}
+
+.bilhete-cliente {
+    border-radius: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 1px solid #384091;
+    margin: 15px;
+    padding: inherit;
+    padding-top: 5px;
+    font-family: 'Ovo', serif;
+    font-weight: bolder
+}
+
+.bilhete-dados {
+    border-radius: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 1px solid #384091;
+    margin: 15px;
+    padding: inherit;
+    padding-top: 5px;
+    font-family: 'Ovo', serif;
+    font-weight: bolder;
+}
+
+.bilhete-dados-eventos {
+}
+
+.bilhete-dados-ticket {
+}
+
+
+
+.comentario_cabecalho {
+    display: block ruby;
+}
+
+.comentario_data {
+    font-size: 9px;
+    float: left;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.comentario_excluir {
+    font-size: 9px;
+    float: right;
+    font-weight: bold;
+}
+
+
+.barcode {
+    margin-left: 20px;
 }
