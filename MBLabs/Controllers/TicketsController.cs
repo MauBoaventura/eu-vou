@@ -30,11 +30,11 @@ namespace EuVou.Models
         {
             string userAutenticate = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            EuVouUser user = ThisUser();            
+            EuVouUser user = ThisUser();
             if (user.IsADM)
             {
-                //ViewBag.User = _context.Event.ToList();
                 ViewBag.User = user;
+                ViewBag.Users = AllUsers();
                 ViewBag.Events = _context.Event.ToList();
 
                 return View(await _context.Ticket.ToListAsync());
@@ -42,8 +42,9 @@ namespace EuVou.Models
             else
             {
                 ViewBag.User = user;
+                ViewBag.Users = AllUsers();
                 ViewBag.Events = _context.Event.ToList();
-                
+
                 return View(_context.Ticket.Where(m => m.Id_Client == userAutenticate));
             }
 
@@ -84,7 +85,7 @@ namespace EuVou.Models
             {
                 while (reader.Read())
                 {
-                    if (reader.GetString(0) == userAutenticate)
+                    if (reader.GetString(0) == ticket.Id_Client)
                     {
                         user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
                     }
@@ -109,13 +110,16 @@ namespace EuVou.Models
             ViewBag.Event = @event;
 
 
-            if (userAutenticate != ticket.Id_Client && !user.IsADM)
+            if (ThisUser().IsADM)
+                return View(ticket);
+
+            if (userAutenticate == ticket.Id_Client)
             {
+                return View(ticket);
+            }
+            else
                 return Forbid();
 
-            }
-
-            return View(ticket);
         }
 
         // GET: Tickets/Create
@@ -308,11 +312,9 @@ namespace EuVou.Models
             {
                 while (reader.Read())
                 {
-                    if (reader.GetString(0) == userAutenticate)
-                    {
-                        EuVouUser user_i = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
-                        user.Add(user_i);
-                    }
+                    EuVouUser user_i = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+                    user.Add(user_i);
+
                 }
             }
             else

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<MBLabs.Models.Ticket>
+@using EuVou.Areas.Identity.Data
 
 @{
     ViewData["Title"] = "Index";
@@ -7,10 +8,11 @@
 
 @{
     var eventos = ViewBag.Events as List<MBLabs.Models.Event>;
+    var users = ViewBag.Users as List<EuVouUser>;
 }
 
 
-<h1>Tickets</h1>
+<h1>My Tickets</h1>
 
 
 @*<table class="table">
@@ -76,10 +78,10 @@
                             Data: @eventos.Find(delegate (Event e) { return e.Id == item.Id_Event; }).Date
                         </p>
                         <p>
-                            Name: @ViewBag.User.Name
+                            Name: @users.Find(delegate (EuVouUser e) { return e.Id == item.Id_Client; }).Name
                         </p>
                         <p>
-                            CPF: @ViewBag.User.CPF
+                            CPF: @users.Find(delegate (EuVouUser e) { return e.Id == item.Id_Client; }).CPF
                         </p>
                     </div>
                     <div class="card-action">

@@ -1,17 +1,58 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using EuVou.Areas.Identity.Data
+@using Microsoft.Data.SqlClient;
+@using System.Data;
+
 
 @inject SignInManager<EuVouUser> SignInManager
 @inject UserManager<EuVouUser> UserManager
 
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+
+        string strcon = "Server=(localdb)\\mssqllocaldb;Database=EuVou;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+        SqlConnection sqlConnection1 = new SqlConnection(strcon);
+        SqlCommand cmd = new SqlCommand();
+        SqlDataReader reader;
+
+        cmd.CommandText = "SELECT * FROM AspNetUsers WHERE EMAIL = \'" + UserManager.GetUserName(User).ToString() + "\';";
+        cmd.CommandType = CommandType.Text;
+        cmd.Connection = sqlConnection1;
+
+        sqlConnection1.Open();
+
+        EuVouUser user = null;
+        reader = cmd.ExecuteReader();
+        if (reader.HasRows)
+        {
+            while (reader.Read())
+            {
+                user = new EuVouUser { Id = reader["Id"].ToString(), UserName = reader["Username"].ToString(), Email = reader["Email"].ToString(), CPF = reader["CPF"].ToString(), Name = reader["Name"].ToString(), Phone = reader["Phone"].ToString(), IsADM = Convert.ToBoolean(reader["IsADM"].ToString()) };
+            }
+        }
+        else
+        {
+            Console.WriteLine("No rows found.");
+        }
+        // Aqui os dados são acessados através do objeto dataReader
+        sqlConnection1.Close();
+
+
+
+        @if (user.IsADM)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-action="Index" asp-controller="Events">Events&nbsp;&nbsp;&nbsp;&nbsp;|</a>
+            </li>
+        }
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" >Tickets&nbsp;&nbsp;&nbsp;&nbsp;|</a>
+            <a class="nav-link text-dark" asp-action="Index" asp-controller="Tickets">Tickets&nbsp;&nbsp;&nbsp;&nbsp;|</a>
         </li>
         <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@user.Name &#128540;</a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
