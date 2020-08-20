@@ -61,16 +61,14 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-4 s12 m6 mb-2 ">
+            <div class="col-4 s12 m6 mb-2 palavra">
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
-                        <div class="card-title">
-                            @eventos.Find(delegate (Event e) { return e.Id == item.Id_Event; }).Name
-                        </div>
-                        <span class="card-title"></span>
+                        <span class="card-title">@eventos.Find(delegate (Event e) { return e.Id == item.Id_Event; }).Name</span>
                         <p>
                             Localização: @eventos.Find(delegate (Event e) { return e.Id == item.Id_Event; }).Location
                         </p>
+                        <hr />
                         <p>
                             Horario: @eventos.Find(delegate (Event e) { return e.Id == item.Id_Event; }).Hour
                         </p>
@@ -85,8 +83,8 @@
                         </p>
                     </div>
                     <div class="card-action">
-                        <a asp-action="Details" asp-route-id="@item.Id"> View Ticket</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id"> Delete</a>
+                        <a class="card-link" asp-action="Details" asp-route-id="@item.Id"> View Ticket</a>
+                        <a class="card-link" asp-action="Delete" asp-route-id="@item.Id"> Delete</a>
                     </div>
                 </div>
             </div>
